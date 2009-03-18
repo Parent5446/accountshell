@@ -1,0 +1,6 @@
+2008-03-17  Tyler Romeo  <tylerromeo@gmail.com>
+
+	Created general file and directory structure.
+	Created draft Config and Database models.
+
+	WARNING: CODE NOT TESTED AND DOES NOT WORK
