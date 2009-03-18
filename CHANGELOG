@@ -1,3 +1,7 @@
+2008-03-18  Tyler Romeo  <tylerromeo@gmail.com?
+
+	*app/models/Database.py (Database.updateFromFile, Database.updateToFile()): Fixed error caused when copying and pasting code.
+
 2008-03-17  Tyler Romeo  <tylerromeo@gmail.com>
 
 	Created general file and directory structure.

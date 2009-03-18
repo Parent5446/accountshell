@@ -11,7 +11,7 @@ class Database():
 		self.updateToFile()
 		return true
 	def updateFromFile(self):
-		datafile = open(filename = self.getRequestFilename(), 'r')
+		datafile = open(self.getRequestFilename(), 'r')
 		lines = configfile.readlines()
 		data.close()
 		temp = {}
@@ -24,7 +24,7 @@ class Database():
 			self.data.append(templine)
 		return true
 	def updateToFile(self):
-		datafile = open(filename = self.getRequestFilename(), 'w')
+		datafile = open(self.getRequestFilename(), 'w')
 		temp = []
 		for dataset in self.data:
 			line = ''
