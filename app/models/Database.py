@@ -6,12 +6,33 @@ class Database():
 	def __init__(self, config):
 		self.config = config
 		self.updateFromFile()
+	def getLine(self, value, key = 'username'):
+		for dataset in self.data:
+			if dataset[key] == value:
+				return dataset
+		return false
 	def addLine(self, information):
 		self.data.append(information)
 		self.updateToFile()
 		return true
+	def changeLine(self, identifierkey, identifier, key, value):
+		for dataset in self.data:
+			if dataset[identifierkey] == identifier:
+					if dataset[key] != value:
+						dataset[key] = value
+		return true
+	def changeFullLine(self, identifierkey, identifier, info):
+		for dataset in self.data:
+			if dataset[identifierkey] == identifier:
+				dataset = info
+		return true			
+	def delLine(self, value, key = 'username'):
+		for dataset in self.data:
+			if dataset[key] == value:
+				self.data.remove(dataset)
+		return true
 	def updateFromFile(self):
-		datafile = open(filename = self.getRequestFilename(), 'r')
+		datafile = open(self.getRequestFilename(), 'r')
 		lines = configfile.readlines()
 		data.close()
 		temp = {}
@@ -24,7 +45,7 @@ class Database():
 			self.data.append(templine)
 		return true
 	def updateToFile(self):
-		datafile = open(filename = self.getRequestFilename(), 'w')
+		datafile = open(self.getRequestFilename(), 'w')
 		temp = []
 		for dataset in self.data:
 			line = ''
