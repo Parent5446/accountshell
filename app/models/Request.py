@@ -2,6 +2,7 @@ import os
 
 class Request():
 	userinfo = {}
+	loaded = false
 	def __init__(self, config, database):
 		self.config = config
 		self.database = database
@@ -12,6 +13,10 @@ class Request():
 	def putInfo(self, info):
 		for key in info.keys:
 			self.userinfo[key] = info[key]
+		if self.loaded:
+			self.updateToDatabase()
+		else:
+			self.uddateFromDatabase()
 		return true
 	def approve(self):
 		command = 'useradd -c "Created with account shell." -mg acctshell -k /opt/acctshell/defaulthome -p "'
