@@ -1,7 +1,10 @@
+2008-03-21  Tyler Romeo <tylerromeo@gmail.com>
+
+	Added list of common functions for all views.
+
 2008-03-20  Tyler Romeo  <tylerromeo@gmail.com>
 
-	*app/models/Request.py (Request.putInfo): Function now updates 
-changes to database, or loads the request if not loaded yet.
+	*app/models/Request.py (Request.putInfo): Function now updates changes to database, or loads the request if not loaded yet.
 
 	Created simple bootstrapper in root directory.
 
