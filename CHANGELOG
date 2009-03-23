@@ -1,3 +1,7 @@
+2008-03-22  Tyler Romeo  <tylerromeo@gmail.com>
+
+	Loading of modules in directory structure now works since __init__.py files have been added.
+
 2008-03-21  Tyler Romeo <tylerromeo@gmail.com>
 
 	Added list of common functions for all views.
