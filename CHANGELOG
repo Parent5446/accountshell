@@ -1,3 +1,10 @@
+2008-03-24  Tyler Romeo  <tylerromeo@gmail.com>
+
+	Added view for Main Menu.
+
+	*app/views/Common.py (ShellMenu): Replaced occurrences of string.zfill() with string.ljust(), fixed other syntax errors.
+	*app/views/Common.py (QuestionList): Same as above.
+
 2008-03-22  Tyler Romeo  <tylerromeo@gmail.com>
 
 	Loading of modules in directory structure now works since __init__.py files have been added.

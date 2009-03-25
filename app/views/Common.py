@@ -1,5 +1,5 @@
 def ShellMenu(title, choices, actions):
-	title = title.zfill(50)
+	title = title.ljust(50)
 	title = title.title()
 	print ( '-' * 50 ) + "\n"
 	print title + "\n"
@@ -7,19 +7,19 @@ def ShellMenu(title, choices, actions):
 	x = 0
 	for choice in choices:
 		x = x+1
-		print '[' + x + '] ' + choice.zfill(46) + "\n"
+		print '[' + repr(x) + '] ' + choice.ljust(46) + "\n"
 	print ( '=' * 50 ) + "\n"
-	invalid = true
+	invalid = 1
 	while invalid:
-		choice = input('Enter your menu choice [1-' + x + ']: ')
-		if choice <=0 or choice > x:
+		choice = input('Enter your menu choice [1-' + repr(x) + ']: ')
+		if choice <= 0 or choice > x:
 			print "Invalid choice. Please choose again.\n"
 		else:
-			invalid = false
-	return "%s()" % actions[choice]
+			invalid = 0
+	return "%s()" % actions[choice - 1]
 
 def QuestionList(title, header, questions):
-	title = title.zfill(50)
+	title = title.ljust(50)
 	title = title.title()
 	print ( '-' * 50 ) + "\n"
 	print title + "\n"
@@ -27,13 +27,13 @@ def QuestionList(title, header, questions):
 	print header + "\n\n"
 	answers = []
 	for question in questions:
-		invalid = true
+		invalid = 1
 		while invalid:
-			temp = str(input(question + ' '))
+			temp = repr(input(question + ' '))
 			if temp == '':
 				print "Fields cannot be left blank.\n"
 				x=raw_input()
 			else:
-				invalid = false
+				invalid = 0
 		answers.append(temp)
 	return answers
