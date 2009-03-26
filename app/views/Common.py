@@ -1,14 +1,14 @@
 def ShellMenu(title, choices, actions):
 	title = title.ljust(50)
 	title = title.title()
-	print ( '-' * 50 ) + "\n"
-	print title + "\n"
-	print ( '-' * 50 ) + "\n"
+	print ( '-' * 50 )
+	print title
+	print ( '-' * 50 )
 	x = 0
 	for choice in choices:
 		x = x+1
-		print '[' + repr(x) + '] ' + choice.ljust(46) + "\n"
-	print ( '=' * 50 ) + "\n"
+		print '[' + repr(x) + '] ' + choice.ljust(46)
+	print ( '=' * 50 )
 	invalid = 1
 	while invalid:
 		choice = input('Enter your menu choice [1-' + repr(x) + ']: ')
@@ -21,9 +21,9 @@ def ShellMenu(title, choices, actions):
 def QuestionList(title, header, questions):
 	title = title.ljust(50)
 	title = title.title()
-	print ( '-' * 50 ) + "\n"
-	print title + "\n"
-	print ( '-' * 50 ) + "\n"
+	print ( '-' * 50 )
+	print title
+	print ( '-' * 50 )
 	print header + "\n\n"
 	answers = []
 	for question in questions:
