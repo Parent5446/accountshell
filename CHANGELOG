@@ -1,3 +1,10 @@
+3008-03-26  Tyler Romeo  <tylerromeo@gmail.com>
+
+	*app/views/AccountShell.py (MainMenu): Changed nature of view by letting the controller loop the menu instead of the view.
+	Added the Request_* functions, which will return user information to MainMenu() and then to the controller.
+
+	Added new common view functions for retrieving passwords and printing simple messages.
+
 2008-03-25  Tyler Romeo  <tylerromeo@gmail.com>
 
 	Add bootstrap file to automatically import all modules.

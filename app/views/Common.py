@@ -1,3 +1,5 @@
+import getpass
+
 def ShellMenu(title, choices, actions):
 	title = title.ljust(50)
 	title = title.title()
@@ -37,3 +39,10 @@ def QuestionList(title, header, questions):
 				invalid = 0
 		answers.append(temp)
 	return answers
+
+def PasswordPrompt():
+	return getpass.getpass()
+
+def PrintMessage(message):
+	print message
+	return 0
