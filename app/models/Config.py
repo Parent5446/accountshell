@@ -3,7 +3,7 @@ import re
 class Config():
 	"""A class to maintain the program's configuration options."""
 	data = {}
-	def __init__(self, initOptions):
+	def __init__(self, initOptions = []):
 		self.updateFromFile()
 		for key in initOptions.keys():
      			self.data[key] = initOptions[key]
@@ -13,8 +13,7 @@ class Config():
 		self.data[key] = value
 	def updateFromFile(self, filename = ''):
 		if filename == '':
-			global ROOTPATH
-			filename = ROOTPATH + 'data/config'
+			filename = 'data/config'
 		configfile = open(filename, 'r')
 		rawoptions = configfile.readlines()
 		configfile.close()
@@ -23,15 +22,14 @@ class Config():
 			separated = re.split('\=', rawoption)
 			temp[separated[0]] = separated[1]
 		self.data = temp
-		return true
+		return 1
 	def updateToFile(self, filename = ''):
 		if filename == '':
-			global ROOTPATH
-			filename = ROOTPATH + 'data/config'
+			filename = 'data/config'
 		configfile = open(filename, 'w')
 		temp = []
 		for key in self.data.keys():
 			temp.append(key + "=" + self.data[key])
 		configfile.writelines(temp)
 		configfile.close()
-		return true
+		return 1

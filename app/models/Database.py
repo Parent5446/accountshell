@@ -10,27 +10,27 @@ class Database():
 		for dataset in self.data:
 			if dataset[key] == value:
 				return dataset
-		return false
+		return 0
 	def addLine(self, information):
 		self.data.append(information)
 		self.updateToFile()
-		return true
+		return 1
 	def changeLine(self, identifierkey, identifier, key, value):
 		for dataset in self.data:
 			if dataset[identifierkey] == identifier:
 					if dataset[key] != value:
 						dataset[key] = value
-		return true
+		return 1
 	def changeFullLine(self, identifierkey, identifier, info):
 		for dataset in self.data:
 			if dataset[identifierkey] == identifier:
 				dataset = info
-		return true			
+		return 1			
 	def delLine(self, value, key = 'username'):
 		for dataset in self.data:
 			if dataset[key] == value:
 				self.data.remove(dataset)
-		return true
+		return 1
 	def updateFromFile(self):
 		datafile = open(self.getRequestFilename(), 'r')
 		lines = configfile.readlines()
@@ -43,7 +43,7 @@ class Database():
 				separated2 = re.split('\=', option)
 				templine[separated2[0]] = separated2[1]
 			self.data.append(templine)
-		return true
+		return 1
 	def updateToFile(self):
 		datafile = open(self.getRequestFilename(), 'w')
 		temp = []
@@ -54,6 +54,6 @@ class Database():
 			temp.append(line)
 		datafile.writelines(temp)
 		datafile.close()
-		return true
-	def getRequestFilename():
+		return 1
+	def getRequestFilename(self):
 		return self.config.getOption('database.filename')

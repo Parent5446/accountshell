@@ -27,17 +27,17 @@ def QuestionList(title, header, questions):
 	print title
 	print ( '-' * 50 )
 	print header + "\n\n"
-	answers = []
-	for question in questions:
+	answers = {}
+	for key in questions.keys:
 		invalid = 1
+		temp = ''
 		while invalid:
-			temp = repr(input(question + ' '))
 			if temp == '':
 				print "Fields cannot be left blank.\n"
-				x=raw_input()
+				temp = repr(input(questions[key] + ' '))
 			else:
 				invalid = 0
-		answers.append(temp)
+		answers[key] = temp
 	return answers
 
 def PasswordPrompt():

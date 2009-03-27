@@ -1,4 +1,20 @@
-3008-03-26  Tyler Romeo  <tylerromeo@gmail.com>
+2008-03-27  Tyler Roemo  <tylerromeo@gmail.com>
+
+	Exchanged invalid "true" and "false" return values with 1 and 0.
+
+	Added controller for Account Shell.
+
+	*app/models/Config.py (Config.__init__): Removed default value for initOptions since a dictionary is expected.
+	*app/models/Config.py (Config.updateFromFile): Removed usage of ROOTPATH variable.
+	*app/models/Config.py (Config.updateToFile): Same as above.
+
+	*app/models/Request.py (Request): Added variable to identify new account request.
+	Added function to check passwords on requests.
+
+	*app/views/AccountShell.py (MainMenu): Removed unnecessary parameter.
+	Replaced lists in the Request_* functions and QuestionList common view with dictionaries for support with Request class.
+
+2008-03-26  Tyler Romeo  <tylerromeo@gmail.com>
 
 	*app/views/AccountShell.py (MainMenu): Changed nature of view by letting the controller loop the menu instead of the view.
 	Added the Request_* functions, which will return user information to MainMenu() and then to the controller.

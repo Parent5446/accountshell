@@ -1,6 +1,6 @@
 import Common
 
-def MainMenu(controller):
+def MainMenu():
 	title   = 'Main Menu'
 	choices = [ 'Create a new account request', 'Check an existing account request',
                     'Delete an existing request', 'Administrative Panel', 'Exit/Stop' ]
@@ -17,24 +17,24 @@ def MainMenu(controller):
 def Request_Create():
 	title     = 'Create a new account request:'
 	header    = 'Answer the following prompts, all are required.'
-	questions = [ 'Enter your requested username:', 'Enter your real name (first and last):',
-                      'Enter your email address:', 'Comments:\n' ]
+	questions = { 'username': 'Enter your requested username:', 'realname': 'Enter your real name (first and last):',
+                      'email': 'Enter your email address:', 'comments': 'Comments:\n' }
 	answers   = Common.QuestionList(title, header, questions)
-	answers.append(Common.PasswordPrompt())
+	answers['password'] = Common.PasswordPrompt()
 	return answers
 
 def Request_Check():
 	title     = 'Edit an existing account request:'
 	header    = 'Enter the username and password you suggested to continue.'
-	questions = [ 'Enter your requested username:' ]
+	questions = { 'username': 'Enter your requested username:' }
 	answers   = Common.QuestionList(title, header, questions)
-	answers.append(Common.PasswordPrompt())
+	answers['password'] = Common.PasswordPrompt()
 	return answers
 
 def Request_Delete():
 	title     = 'Delete an existing account request:'
 	header    = 'Enter the username and password you suggested to continue.'
-	questions = [ 'Enter your requested username:' ]
+	questions = { 'username': 'Enter your requested username:' }
 	answers   = Common.QuestionList(title, header, questions)
-	answers.append(Common.PasswordPrompt())
+	answers['password'] = Common.PasswordPrompt()
 	return answers
