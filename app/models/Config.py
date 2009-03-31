@@ -3,10 +3,8 @@ import re
 class Config():
 	"""A class to maintain the program's configuration options."""
 	data = {}
-	def __init__(self, initOptions = []):
+	def __init__(self):
 		self.updateFromFile()
-		for key in initOptions.keys():
-     			self.data[key] = initOptions[key]
 	def getOption(self, key):
 		return self.data[key]
 	def putOption(self, key, value):
@@ -19,6 +17,7 @@ class Config():
 		configfile.close()
 		temp = {}
 		for rawoption in rawoptions:
+			rawoption = rawoption.rstrip("\n")
 			separated = re.split('\=', rawoption)
 			temp[separated[0]] = separated[1]
 		self.data = temp

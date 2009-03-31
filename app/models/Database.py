@@ -1,4 +1,5 @@
 import re
+import os
 
 class Database():
 	"""A class to maintain the program's configuration options."""
@@ -33,8 +34,8 @@ class Database():
 		return 1
 	def updateFromFile(self):
 		datafile = open(self.getRequestFilename(), 'r')
-		lines = configfile.readlines()
-		data.close()
+		lines = datafile.readlines()
+		datafile.close()
 		temp = {}
 		for line in lines:
 			templine = {}
@@ -56,4 +57,4 @@ class Database():
 		datafile.close()
 		return 1
 	def getRequestFilename(self):
-		return self.config.getOption('database.filename')
+		return os.path.abspath(self.config.getOption('database.filename'))

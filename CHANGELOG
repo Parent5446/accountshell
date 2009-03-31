@@ -1,3 +1,14 @@
+2008-03-31  Tyler Romeo  <tylerromeo@gmail.com>
+
+	*app/controllers/AccountShell.py (AccountShell.execute): Fixed usage of 'false'. Hopefully this is the last.
+	Moved the retrieval of the menu choice and the handling of the choice itself to separate functions.
+
+	*app/models/Config.py (Config.__init__): Removed initOptions, unnecessary.
+	*app/models/Config.py (Config.updateFromFile): Added line to strip newline at end of configuration options.
+
+	*app/models/Database.py (Database.updateFromFile): Fixed mixup of variable names.
+	*app/models/Database.py (Database.RequestFilename): Fixed path resolution using os.path.abspath().
+
 2008-03-27  Tyler Roemo  <tylerromeo@gmail.com>
 
 	Exchanged invalid "true" and "false" return values with 1 and 0.
