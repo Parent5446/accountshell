@@ -1,4 +1,13 @@
-2008-03-31  Tyler Romeo  <tylerromeo@gmail.com>
+2009-04-13  Tyler Romeo  <tylerromeo@gmail.com>
+
+	*app/bootstrap.py: Fixed module names due to new directory structure.
+
+	Request model has been changed into a factory: class is a factory by default and is used to make child instances.
+	Intra-package references for the AccountShell controller now work.
+
+	Other various syntax errors.
+
+2009-03-31  Tyler Romeo  <tylerromeo@gmail.com>
 
 	*app/controllers/AccountShell.py (AccountShell.execute): Fixed usage of 'false'. Hopefully this is the last.
 	Moved the retrieval of the menu choice and the handling of the choice itself to separate functions.
@@ -9,7 +18,7 @@
 	*app/models/Database.py (Database.updateFromFile): Fixed mixup of variable names.
 	*app/models/Database.py (Database.RequestFilename): Fixed path resolution using os.path.abspath().
 
-2008-03-27  Tyler Roemo  <tylerromeo@gmail.com>
+2009-03-27  Tyler Roemo  <tylerromeo@gmail.com>
 
 	Exchanged invalid "true" and "false" return values with 1 and 0.
 
@@ -25,42 +34,42 @@
 	*app/views/AccountShell.py (MainMenu): Removed unnecessary parameter.
 	Replaced lists in the Request_* functions and QuestionList common view with dictionaries for support with Request class.
 
-2008-03-26  Tyler Romeo  <tylerromeo@gmail.com>
+2009-03-26  Tyler Romeo  <tylerromeo@gmail.com>
 
 	*app/views/AccountShell.py (MainMenu): Changed nature of view by letting the controller loop the menu instead of the view.
 	Added the Request_* functions, which will return user information to MainMenu() and then to the controller.
 
 	Added new common view functions for retrieving passwords and printing simple messages.
 
-2008-03-25  Tyler Romeo  <tylerromeo@gmail.com>
+2009-03-25  Tyler Romeo  <tylerromeo@gmail.com>
 
 	Add bootstrap file to automatically import all modules.
 
 	*app/views/Common.py (ShellMenu): Removing printing of new lines (formatting error).
 	*app/views/Common.py (QuestionList): Same as above.
 
-2008-03-24  Tyler Romeo  <tylerromeo@gmail.com>
+2009-03-24  Tyler Romeo  <tylerromeo@gmail.com>
 
 	Added view for Main Menu.
 
 	*app/views/Common.py (ShellMenu): Replaced occurrences of string.zfill() with string.ljust(), fixed other syntax errors.
 	*app/views/Common.py (QuestionList): Same as above.
 
-2008-03-22  Tyler Romeo  <tylerromeo@gmail.com>
+2009-03-22  Tyler Romeo  <tylerromeo@gmail.com>
 
 	Loading of modules in directory structure now works since __init__.py files have been added.
 
-2008-03-21  Tyler Romeo <tylerromeo@gmail.com>
+2009-03-21  Tyler Romeo <tylerromeo@gmail.com>
 
 	Added list of common functions for all views.
 
-2008-03-20  Tyler Romeo  <tylerromeo@gmail.com>
+2009-03-20  Tyler Romeo  <tylerromeo@gmail.com>
 
 	*app/models/Request.py (Request.putInfo): Function now updates changes to database, or loads the request if not loaded yet.
 
 	Created simple bootstrapper in root directory.
 
-2008-03-18  Tyler Romeo  <tylerromeo@gmail.com>
+2009-03-18  Tyler Romeo  <tylerromeo@gmail.com>
 
 	Created draft Request model.
 
@@ -69,7 +78,7 @@
 	*app/models/Database.py (Database.updateFromFile, Database.updateToFile()): Fixed error caused when copying and pasting code.
 	Added new functions to interact with database.
 
-2008-03-17  Tyler Romeo  <tylerromeo@gmail.com>
+2009-03-17  Tyler Romeo  <tylerromeo@gmail.com>
 
 	Created general file and directory structure.
 	Created draft Config and Database models.

@@ -1,6 +1,10 @@
 import re
 import os
 
+class Callable:
+    def __init__(self, anycallable):
+        self.__call__ = anycallable
+
 class Config():
 	"""A class to maintain the program's configuration options."""
 	data = {}
@@ -79,13 +83,13 @@ class Database():
 			self.data.append(templine)
 		return 1
 	def updateToFile(self):
-		datafile = open(self.getRequestFilename(), 'w')
 		temp = []
 		for dataset in self.data:
 			line = ''
 			for key in dataset.keys():
 				line = line + key + '=' + dataset[key] + ';'
 			temp.append(line)
+		datafile = open(self.getRequestFilename(), 'w')
 		datafile.writelines(temp)
 		datafile.close()
 		return 1
@@ -96,15 +100,21 @@ class Request():
 	userinfo = {}
 	loaded = 0
 	new = 0
+	factory = 0
 	def __init__(self, config, database):
 		self.config = config
 		self.database = database
+		self.factory = 1
 	def getInfo(self, key):
+		if self.factory:
+			return false
 		if key == 'password':
 			return 0
 		return self.userinfo[key]
 	def putInfo(self, info):
-		for key in info.keys:
+		if self.factory:
+			return false
+		for key in info.keys():
 			self.userinfo[key] = info[key]
 		if self.loaded or self.new:
 			self.updateToDatabase()
@@ -112,23 +122,39 @@ class Request():
 			self.updateFromDatabase()
 		return 1
 	def checkPassword(self, password):
+		if self.factory:
+			return false
 		if password == self.userinfo['password']:
 			return 1
 		return 0
 	def approve(self):
+		if self.factory:
+			return false
 		command = 'useradd -c "Created with account shell." -mg acctshell -k /opt/acctshell/defaulthome -p "'
 		command = command + self.userinfo['password'] + '" "' + self.userinfo['username'] + '"'
 		os.system(command)
 		self.database.delLine(self.userinfo['username'])
 		return 1
 	def deny(self):
+		if self.factory:
+			return false
 		self.database.delLine(self.userinfo['username'])
 		userinfo = {}
 		return 1
 	def updateToDatabase(self):
+		if self.factory:
+			return false
 		for key in self.userinfo.keys():
-			self.database.changeLine('username', self.userinfo['username'], key, info[key])
+			self.database.changeLine('username', self.userinfo['username'], key, self.userinfo[key])
 		return 1
 	def updateFromDatabase(self):
+		if self.factory:
+			return false
 		userinfo = self.database.getLine(userinfo['username'])
 		return 1
+	def newInstance(self):
+		if self.factory == 0:
+			return false
+		temp = Request(self.config, self.database)
+		temp.factory = 0
+		return temp

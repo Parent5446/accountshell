@@ -28,15 +28,10 @@ def QuestionList(title, header, questions):
 	print ( '-' * 50 )
 	print header + "\n\n"
 	answers = {}
-	for key in questions.keys:
-		invalid = 1
+	for key in questions.keys():
 		temp = ''
-		while invalid:
-			if temp == '':
-				print "Fields cannot be left blank.\n"
-				temp = repr(input(questions[key] + ' '))
-			else:
-				invalid = 0
+		while temp == '':
+			temp = raw_input(questions[key] + ' ')
 		answers[key] = temp
 	return answers
 

@@ -1,38 +1,45 @@
+from .views.AccountShell import MainMenu
+from .views.Common import PrintMessage
+
 class AccountShell():
-	def __init__(self, config, database):
+	def __init__(self, config, database, request):
 		self.config = config
 		self.database = database
+		self.request = request
 	def execute(self):
 		inmenu = 1
 		while inmenu:
-			status = app.views.AccountShell.MainMenu()
+			status = MainMenu()
 			if status == 1:
 				return 1
 			elif status == 0:
 				inmenu = 0
 			else:
-				request = app.models.Request(self.config, self.database)
+				request = self.request.newInstance()
 				message = self.handleRequest(status, request)
-				app.views.Common.PrintMessage(message)
+				PrintMessage(message)
 		return 0
 	def getMenuChoice(self):
 		return app.views.AccountShell.MainMenu()
 	def handleRequest(self, status, request):
-		if status[0] == 'Request_Create':
-			request.new = true
+		print status
+		if status[0] == 'Request_Create()':
+			request.new = 1
 			request.putInfo(status[1])
 			message = 'Account request successfully created.'
-		elif status[0] == 'Request_Check':
+		elif status[0] == 'Request_Check()':
 			request.putInfo(status[1])
 			if request.checkPassword(status[1]['password']) == 0:
 				message = 'Either you have entered an incorrect username/password or your account has been approved.'
 			else:
 				message = 'Your request is still being processed.'
-		elif status[0] == 'Request_Delete':
+		elif status[0] == 'Request_Delete()':
 			request.putInfo(status[1])
 			if request.checkPassword(status[1]['password']) == 0:
 				message = 'Incorrect username/password.'
 			else:
 				oldrequest.deny()
 				message = 'Request deleted successfully.'
+		else:
+			message = 0
 		return message
