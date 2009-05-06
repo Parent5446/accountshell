@@ -77,9 +77,10 @@ class Database():
 		for line in lines:
 			templine = {}
 			separated1 = re.split('\;', line)
-			for option in separated:
+			for option in separated1:
 				separated2 = re.split('\=', option)
-				templine[separated2[0]] = separated2[1]
+				if separated2[0] != '':
+					templine[separated2[0]] = separated2[1]
 			self.data.append(templine)
 		return 1
 	def updateToFile(self):
@@ -107,13 +108,13 @@ class Request():
 		self.factory = 1
 	def getInfo(self, key):
 		if self.factory:
-			return false
+			return 0
 		if key == 'password':
 			return 0
 		return self.userinfo[key]
 	def putInfo(self, info):
 		if self.factory:
-			return false
+			return 0
 		for key in info.keys():
 			self.userinfo[key] = info[key]
 		if self.loaded or self.new:
@@ -123,13 +124,13 @@ class Request():
 		return 1
 	def checkPassword(self, password):
 		if self.factory:
-			return false
+			return 0
 		if password == self.userinfo['password']:
 			return 1
 		return 0
 	def approve(self):
 		if self.factory:
-			return false
+			return 0
 		command = 'useradd -c "Created with account shell." -mg acctshell -k /opt/acctshell/defaulthome -p "'
 		command = command + self.userinfo['password'] + '" "' + self.userinfo['username'] + '"'
 		os.system(command)
@@ -137,24 +138,27 @@ class Request():
 		return 1
 	def deny(self):
 		if self.factory:
-			return false
+			return 0
 		self.database.delLine(self.userinfo['username'])
 		userinfo = {}
 		return 1
 	def updateToDatabase(self):
 		if self.factory:
-			return false
-		for key in self.userinfo.keys():
-			self.database.changeLine('username', self.userinfo['username'], key, self.userinfo[key])
+			return 0
+		if self.new:
+			self.database.addLine(self.userinfo)
+		else:
+			for key in self.userinfo.keys():
+				self.database.changeLine('username', self.userinfo['username'], key, self.userinfo[key])
 		return 1
 	def updateFromDatabase(self):
 		if self.factory:
-			return false
-		userinfo = self.database.getLine(userinfo['username'])
+			return 0
+		self.userinfo = self.database.getLine(self.userinfo['username'])
 		return 1
 	def newInstance(self):
 		if self.factory == 0:
-			return false
+			return 0
 		temp = Request(self.config, self.database)
 		temp.factory = 0
 		return temp

@@ -22,24 +22,23 @@ class AccountShell():
 	def getMenuChoice(self):
 		return app.views.AccountShell.MainMenu()
 	def handleRequest(self, status, request):
-		print status
 		if status[0] == 'Request_Create()':
 			request.new = 1
 			request.putInfo(status[1])
 			message = 'Account request successfully created.'
 		elif status[0] == 'Request_Check()':
 			request.putInfo(status[1])
-			if request.checkPassword(status[1]['password']) == 0:
-				message = 'Either you have entered an incorrect username/password or your account has been approved.'
-			else:
+			if request.checkPassword(status[1]['password']):
 				message = 'Your request is still being processed.'
+			else:
+				message = 'Either you have entered an incorrect username/password or your account has been approved.'
 		elif status[0] == 'Request_Delete()':
 			request.putInfo(status[1])
-			if request.checkPassword(status[1]['password']) == 0:
-				message = 'Incorrect username/password.'
-			else:
+			if request.checkPassword(status[1]['password']):
 				oldrequest.deny()
 				message = 'Request deleted successfully.'
+			else:
+				message = 'Incorrect username/password.'
 		else:
 			message = 0
 		return message

@@ -1,3 +1,12 @@
+2009-05-06  Tyler Romeo  <tylerromeo@gmail.com>
+
+	*app/models.py (Database.updateFromFile): Fixed variable names in function.
+	*app/models.py (Request.updateToDatabase): Object now creates new database line for new request rather than changing a nonexistent one.
+	*app/models.py (Request.updateFromDatabase): Fixed variable names.
+	Account shell successfully creates, stores, and recalls requests (still bug with incorrect passwords).
+
+	Fixed various syntax errors.
+
 2009-04-13  Tyler Romeo  <tylerromeo@gmail.com>
 
 	*app/bootstrap.py: Fixed module names due to new directory structure.
