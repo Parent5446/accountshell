@@ -109,7 +109,7 @@ class Request():
 	def getInfo(self, key):
 		if self.factory:
 			return 0
-		if key == 'password':
+		if key == 'password' and self.config.getOption('request.passwordsafety'):
 			return 0
 		return self.userinfo[key]
 	def putInfo(self, info):

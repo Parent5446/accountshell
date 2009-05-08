@@ -1,2 +1,3 @@
 database.filename=data/requests
 scripts.dirname=scripts
+request.passwordsafety=1

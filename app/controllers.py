@@ -35,7 +35,7 @@ class AccountShell():
 		elif status[0] == 'Request_Delete()':
 			request.putInfo(status[1])
 			if request.checkPassword(status[1]['password']):
-				oldrequest.deny()
+				request.deny()
 				message = 'Request deleted successfully.'
 			else:
 				message = 'Incorrect username/password.'

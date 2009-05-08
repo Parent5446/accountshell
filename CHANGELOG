@@ -1,3 +1,10 @@
+2009-05-07  Tyler Romeo  <tylerromeo@gmail.com>
+
+	*acctshell.py: Startup script updated. Account shell starts up and stores requests.
+	*app/controllers.py (AccountShell.handleRequest): Fixed variable name issue.
+
+	*app/models.py (Request.getInfo): Added configuration option to allow/disallow retrieval of password from Request object.
+
 2009-05-06  Tyler Romeo  <tylerromeo@gmail.com>
 
 	*app/models.py (Database.updateFromFile): Fixed variable names in function.
