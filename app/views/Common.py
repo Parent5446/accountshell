@@ -40,4 +40,13 @@ def PasswordPrompt():
 
 def PrintMessage(message):
 	print message
-	return 0
+	raw_input()
+
+def ClearScreen(numlines = 100):
+	import os
+	if os.name == 'posix':
+		os.system('clear')
+	elif os.name in ("nt", "dos", "ce"):
+		os.system('cls')
+	else:
+		print '\n' * numlines

@@ -1,6 +1,7 @@
 import Common
 
-def MainMenu():
+def AccountShell_MainMenu():
+	Common.ClearScreen()
 	title   = 'Main Menu'
 	choices = [ 'Create a new account request', 'Check an existing account request',
                     'Delete an existing request', 'Administrative Panel', 'Exit/Stop' ]
@@ -15,6 +16,7 @@ def MainMenu():
 		return 0
 
 def Request_Create():
+	Common.ClearScreen()
 	title     = 'Create a new account request:'
 	header    = 'Answer the following prompts, all are required.'
 	questions = { 'username': 'Enter your requested username:', 'realname': 'Enter your real name (first and last):',
@@ -24,6 +26,7 @@ def Request_Create():
 	return answers
 
 def Request_Check():
+	Common.ClearScreen()
 	title     = 'Edit an existing account request:'
 	header    = 'Enter the username and password you suggested to continue.'
 	questions = { 'username': 'Enter your requested username:' }
@@ -32,6 +35,7 @@ def Request_Check():
 	return answers
 
 def Request_Delete():
+	Common.ClearScreen()
 	title     = 'Delete an existing account request:'
 	header    = 'Enter the username and password you suggested to continue.'
 	questions = { 'username': 'Enter your requested username:' }

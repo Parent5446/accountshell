@@ -125,8 +125,11 @@ class Request():
 	def checkPassword(self, password):
 		if self.factory:
 			return 0
-		if password == self.userinfo['password']:
-			return 1
+		try:
+			if password == self.userinfo['password']:
+				return 1
+		except TypeError:
+			return 0
 		return 0
 	def approve(self):
 		if self.factory:

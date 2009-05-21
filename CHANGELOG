@@ -1,3 +1,14 @@
+2009-05-20  Tyler Romeo  <tylerromeo@gmail.com>
+
+	*acctshell.py: Updated startup script with new functionality.
+	Added AdminPanel views and controllers (no password protection yet!).
+
+	*app/views/AccountShell.py: Changed function name to avoid collisions.
+	*app/controllers.py (AccountShell.getMenuChoice): Remove useless function.
+
+	*app/models.py (Request.checkPassword): Added check for error if passowrd is blank.
+	*app/views/AccountShell.py: Added ClearScreen() function for all views.
+
 2009-05-07  Tyler Romeo  <tylerromeo@gmail.com>
 
 	*acctshell.py: Startup script updated. Account shell starts up and stores requests.
