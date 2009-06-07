@@ -64,7 +64,8 @@ class AdminPanel():
 		if status[0] == 'Request_List()':
 			message = ''
 		elif status[0] == 'Request_Approve()':
-			request.putInfo(status[1])
+			info = { status[1]['ref']: status[1]['id'] }
+			request.putInfo(info)
 			request.updateFromDatabase()
 			request.approve()
 			message = 'Request successfully approved.'

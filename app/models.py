@@ -134,7 +134,7 @@ class Request():
 	def approve(self):
 		if self.factory:
 			return 0
-		command = 'useradd -c "Created with account shell." -mg acctshell -k /opt/acctshell/defaulthome -p "'
+		command = 'useradd -c "Created with account shell." -mg acctshell -p "'
 		command = command + self.userinfo['password'] + '" "' + self.userinfo['username'] + '"'
 		os.system(command)
 		self.database.delLine(self.userinfo['username'])

@@ -20,3 +20,4 @@ while menustatus:
 		while adminstatus == 2:
 			adminstatus = controller2.execute()
 			database.updateToFile()
+		menustatus = 2
