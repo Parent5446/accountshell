@@ -1,3 +1,15 @@
+2009-06-07  Tyler Romeo  <tylerromeo@gmail.com>
+
+	*acctshell.py: Fixed loop to exit admin menu correctly.
+	Request creation and deletion work correctly. Admin menu being tested.
+
+	*app/controllers.py (AdminPanel.handleRequest): Fixed paramters passed to Request object.
+	*app/models.py (Request.approve): Removed unnecessary option on useradd command.
+
+	*app/views/AdminPanel.py (AdminPanel_MainMenu): Fixed paramters problem with views.
+	*app/views/AdminPanel.py (Request_List): Added definition for key variable.
+	Listing requests from database works correctly.	
+
 2009-05-20  Tyler Romeo  <tylerromeo@gmail.com>
 
 	*acctshell.py: Updated startup script with new functionality.
