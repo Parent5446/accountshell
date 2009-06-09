@@ -20,6 +20,14 @@ class AccountShell():
 				message = self.handleRequest(status, request)
 				PrintMessage(message)
 		return 0
+	def checkUsername(self, username):
+		print '\n'
+		retval = self.auth.authenticate()
+		if retval == 1:
+			PrintMessage("Username/Password authenticated.\n")
+		else:
+			PrintMessage("Incorrect username or password.\n")
+		return retval
 	def handleRequest(self, status, request):
 		if status[0] == 'Request_Create()':
 			request.new = 1
@@ -43,11 +51,14 @@ class AccountShell():
 		return message
 
 class AdminPanel():
-	def __init__(self, config, database, request):
+	def __init__(self, config, database, auth, request):
 		self.config = config
 		self.database = database
 		self.request = request
+		self.auth = auth
 	def execute(self):
+		if self.authenticateUser() != 1:
+			return 0
 		inmenu = 1
 		while inmenu:
 			status = AdminPanel_MainMenu(self.database.data)
@@ -60,6 +71,16 @@ class AdminPanel():
 				message = self.handleRequest(status, request)
 				PrintMessage(message)
 		return 0
+	def authenticateUser(self):
+		print '\n'
+		retval = self.auth.authenticate()
+		username = self.auth.getLastUsername()
+		retval = retval and self.auth.isAdmin(username)
+		if retval == 1:
+			PrintMessage("Username/Password authenticated.\n")
+		else:
+			PrintMessage("Incorrect username or password.\n")
+		return retval
 	def handleRequest(self, status, request):
 		if status[0] == 'Request_List()':
 			message = ''

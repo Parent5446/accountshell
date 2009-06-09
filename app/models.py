@@ -1,7 +1,6 @@
-import re
-import os
+import re, os, sys, grp, PAM, getpass
 
-class Callable:
+class Callable():
     def __init__(self, anycallable):
         self.__call__ = anycallable
 
@@ -97,12 +96,44 @@ class Database():
 	def getRequestFilename(self):
 		return os.path.abspath(self.config.getOption('database.filename'))
 
+class Auth():
+	__pam = 0
+	def __init__(self, config, database):
+		self.__pam = PAM.pam()
+		self.config = config
+		self.database = database
+	def authenticate(self, username = None, password = None):
+		self.__pam.start("passwd")
+		if username != None:
+			self.__pam.set_item(PAM.PAM_USER, user)
+		try:
+			self.__pam.authenticate()
+			self.__pam.acct_mgmt()
+		except PAM.error, (resp, code):
+			return 0
+		except:
+			return -1
+		else:
+			return 1
+	def makeUser(self, username, password):
+		command = 'useradd -c "Created with account shell." -mg acctshell -p "'
+		command = command + password + '" "' + username + '"'
+		os.system(command)
+		self.database.delLine(username)
+	def isAdmin(self, username):
+		for name in grp.getgrnam("admin")[3]:
+			if name == username:
+				return 1
+		return 0
+	def getLastUsername(self):
+		return self.__pam.get_item(PAM.PAM_USER)
+
 class Request():
-	userinfo = {}
+	__userinfo = {}
 	loaded = 0
 	new = 0
 	factory = 0
-	def __init__(self, config, database):
+	def __init__(self, config, database, auth):
 		self.config = config
 		self.database = database
 		self.factory = 1
@@ -111,12 +142,12 @@ class Request():
 			return 0
 		if key == 'password' and self.config.getOption('request.passwordsafety'):
 			return 0
-		return self.userinfo[key]
+		return self.__userinfo[key]
 	def putInfo(self, info):
 		if self.factory:
 			return 0
 		for key in info.keys():
-			self.userinfo[key] = info[key]
+			self.__userinfo[key] = info[key]
 		if self.loaded or self.new:
 			self.updateToDatabase()
 		else:
@@ -126,7 +157,7 @@ class Request():
 		if self.factory:
 			return 0
 		try:
-			if password == self.userinfo['password']:
+			if password == self.__userinfo['password']:
 				return 1
 		except TypeError:
 			return 0
@@ -134,30 +165,27 @@ class Request():
 	def approve(self):
 		if self.factory:
 			return 0
-		command = 'useradd -c "Created with account shell." -mg acctshell -p "'
-		command = command + self.userinfo['password'] + '" "' + self.userinfo['username'] + '"'
-		os.system(command)
-		self.database.delLine(self.userinfo['username'])
+		self.auth.makeUser(self.__userinfo['username'], self.__userinfo['password'])
 		return 1
 	def deny(self):
 		if self.factory:
 			return 0
-		self.database.delLine(self.userinfo['username'])
-		userinfo = {}
+		self.database.delLine(self.__userinfo['username'])
+		self.__userinfo = {}
 		return 1
 	def updateToDatabase(self):
 		if self.factory:
 			return 0
 		if self.new:
-			self.database.addLine(self.userinfo)
+			self.database.addLine(self.__userinfo)
 		else:
-			for key in self.userinfo.keys():
-				self.database.changeLine('username', self.userinfo['username'], key, self.userinfo[key])
+			for key in self.__userinfo.keys():
+				self.database.changeLine('username', self.__userinfo['username'], key, self.__userinfo[key])
 		return 1
 	def updateFromDatabase(self):
 		if self.factory:
 			return 0
-		self.userinfo = self.database.getLine(self.userinfo['username'])
+		self.__userinfo = self.database.getLine(self.__userinfo['username'])
 		return 1
 	def newInstance(self):
 		if self.factory == 0:

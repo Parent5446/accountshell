@@ -1,3 +1,10 @@
+2009-06-09  Tyler Romeo  <tylerromeo@gmail.com>
+
+	Added new Auth model to check existing usernames for Admin Panel.
+	*app/controllers.py (AdminPanel.execute): Added code to authenticate user.
+
+	*app/models.py (Request): Changed userinfo variable to __userinfo.
+
 2009-06-07  Tyler Romeo  <tylerromeo@gmail.com>
 
 	*acctshell.py: Fixed loop to exit admin menu correctly.

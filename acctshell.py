@@ -4,9 +4,10 @@
 import app.bootstrap
 config = app.models.Config()
 database = app.models.Database(config)
-request = app.models.Request(config, database)
+auth = app.models.Auth(config, database)
+request = app.models.Request(config, database, auth)
 controller1 = app.controllers.AccountShell(config, database, request)
-controller2 = app.controllers.AdminPanel(config, database, request)
+controller2 = app.controllers.AdminPanel(config, database, auth, request)
 
 database.updateFromFile()
 
