@@ -1,4 +1,4 @@
-import re, os, sys, grp, PAM, getpass
+import re, os, sys, grp, PAM, getpass, crypt, random, string
 
 class Callable():
     def __init__(self, anycallable):
@@ -44,6 +44,8 @@ class Database():
 		self.config = config
 		self.updateFromFile()
 	def getLine(self, value, key = 'username'):
+		if key == 'id':
+			return self.data[int(value) - 1]
 		for dataset in self.data:
 			if dataset[key] == value:
 				return dataset
@@ -116,7 +118,8 @@ class Auth():
 		else:
 			return 1
 	def makeUser(self, username, password):
-		command = 'useradd -c "Created with account shell." -mg acctshell -p "'
+		password = crypt.crypt(password, string.join(random.sample(string.ascii_letters + string.digits, 20), ''))
+		command = 'useradd -c "Created with account shell." -s /bin/bash -mg acctshell -p "'
 		command = command + password + '" "' + username + '"'
 		os.system(command)
 		self.database.delLine(username)
@@ -136,6 +139,7 @@ class Request():
 	def __init__(self, config, database, auth):
 		self.config = config
 		self.database = database
+		self.auth = auth
 		self.factory = 1
 	def getInfo(self, key):
 		if self.factory:
@@ -185,11 +189,13 @@ class Request():
 	def updateFromDatabase(self):
 		if self.factory:
 			return 0
-		self.__userinfo = self.database.getLine(self.__userinfo['username'])
+		for key in self.__userinfo.keys():
+			self.__userinfo = self.database.getLine(self.__userinfo[key], key)
+		self.loaded = 1
 		return 1
 	def newInstance(self):
 		if self.factory == 0:
 			return 0
-		temp = Request(self.config, self.database)
+		temp = Request(self.config, self.database, self.auth)
 		temp.factory = 0
 		return temp

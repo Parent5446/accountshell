@@ -1,3 +1,14 @@
+2009-06-15  Tyler Romoe  <tylerromeo@gmail.com>
+
+	*app/models.py (Database.getLine): Added statement to handle the 'id' identifier (not stored in data).
+	*app/models.py (Auth.makeUser): Added password encryption to be compatible with the useradd command.
+	*app/models.py (Request.updateFromDatabase): Fixed database update when other keys are given.
+
+	*app/models.py (Request.__init__): Stored auth variable within class.
+	*app/models.py (Request.newInstance): Fixed parameters passed to new Request objects.
+
+	User account creation now works. Account shell is operational.
+
 2009-06-09  Tyler Romeo  <tylerromeo@gmail.com>
 
 	Added new Auth model to check existing usernames for Admin Panel.
