@@ -1,6 +1,4 @@
-from .views.AccountShell import AccountShell_MainMenu
-from .views.AdminPanel import AdminPanel_MainMenu
-from .views.Common import PrintMessage
+import views
 
 class AccountShell():
 	def __init__(self, config, database, request):
@@ -10,7 +8,7 @@ class AccountShell():
 	def execute(self):
 		inmenu = 1
 		while inmenu:
-			status = AccountShell_MainMenu()
+			status = views.AccountShell_MainMenu()
 			if status == 1:
 				return 1
 			elif status == 0:
@@ -18,15 +16,15 @@ class AccountShell():
 			else:
 				request = self.request.newInstance()
 				message = self.handleRequest(status, request)
-				PrintMessage(message)
+				views.PrintMessage(message)
 		return 0
 	def checkUsername(self, username):
 		print '\n'
 		retval = self.auth.authenticate()
 		if retval == 1:
-			PrintMessage("Username/Password authenticated.\n")
+			views.PrintMessage("Username/Password authenticated.\n")
 		else:
-			PrintMessage("Incorrect username or password.\n")
+			views.PrintMessage("Incorrect username or password.\n")
 		return retval
 	def handleRequest(self, status, request):
 		if status[0] == 'Request_Create()':
@@ -61,7 +59,7 @@ class AdminPanel():
 			return 0
 		inmenu = 1
 		while inmenu:
-			status = AdminPanel_MainMenu(self.database.data)
+			status = views.AdminPanel_MainMenu(self.database.data)
 			if status == 1:
 				return 1
 			elif status == 0:
@@ -69,7 +67,7 @@ class AdminPanel():
 			else:
 				request = self.request.newInstance()
 				message = self.handleRequest(status, request)
-				PrintMessage(message)
+				views.PrintMessage(message)
 		return 0
 	def authenticateUser(self):
 		print '\n'
@@ -77,9 +75,9 @@ class AdminPanel():
 		username = self.auth.getLastUsername()
 		retval = retval and self.auth.isAdmin(username)
 		if retval == 1:
-			PrintMessage("Username/Password authenticated.\n")
+			views.PrintMessage("Username/Password authenticated.\n")
 		else:
-			PrintMessage("Incorrect username or password.\n")
+			views.PrintMessage("Incorrect username or password.\n")
 		return retval
 	def handleRequest(self, status, request):
 		if status[0] == 'Request_List()':
@@ -95,6 +93,71 @@ class AdminPanel():
 			request.updateFromDatabase()
 			request.deny()
 			message = 'Request successfully denied.'
+		else:
+			message = 0
+		return message
+
+class SuperuserPanel():
+	def __init__(self, config, database, auth, request):
+		self.config = config
+		self.database = database
+		self.request = request
+		self.auth = auth
+	def execute(self):
+		if self.authenticateUser() != 1:
+			return 0
+		inmenu = 1
+		while inmenu:
+			status = views.SuperuserPanel_MainMenu(self.database.data)
+			if status == 1:
+				return 1
+			elif status == 0:
+				inmenu = 0
+			else:
+				request = self.request.newInstance()
+				message = self.handleRequest(status, request)
+				views.PrintMessage(message)
+		return 0
+	def authenticateUser(self):
+		print '\n'
+		retval = self.auth.authenticate("root")
+		if retval == 1:
+			views.PrintMessage("Password is correct.\n")
+		else:
+			views.PrintMessage("Incorrect root password.\n")
+		return retval
+	def handleRequest(self, status, request):
+		if status[0] == 'Request_Revoke()':
+			if not self.auth.userExists(status[1]['username']):
+				message = 'Username does not exist.'
+			elif self.auth.deleteUser(status[1]['username']):
+				message = 'User successfully deleted.'
+			else:
+				message = 'Unknown error.'
+		elif status[0] == 'Request_Ban()':
+			currbans = self.config.getOption('banned_names')
+			currbans.append(status[1]['username'])
+			self.config.putOption('banned_names', currbans)
+			self.config.updateToFile()
+			message = 'Username banned successfully.'
+		elif status[0] == 'Request_Unban()':
+			currbans = self.config.getOption('banned_names')
+			currbans.remove(status[1]['username'])
+			self.config.putOption('banned_names', currbans)
+			self.config.updateToFile()
+			message = 'Username unbanned successfully.'
+		elif status[0] == 'Request_ToggleAll()':
+			currstatus = self.config.getOption('enabled')
+			if currstatus == 1 or currstatus == 'yes':
+				currstatus = 0
+				message = 'Account Shell was enabled. It is now disabled.'
+			elif currstatus == 0 or currstatus == 'no':
+				currstatus = 1
+				message = 'Account Shell was disabled. It is now enabled.'
+			else:
+				currstatus = 'permanent'
+				message = 'Account Shell has been manually disabled. It must be re-enabled directly from the configuration file.'
+			self.config.putOption('enabled')
 		else:
 			message = 0
 		return message

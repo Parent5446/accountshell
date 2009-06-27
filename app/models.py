@@ -107,7 +107,7 @@ class Auth():
 	def authenticate(self, username = None, password = None):
 		self.__pam.start("passwd")
 		if username != None:
-			self.__pam.set_item(PAM.PAM_USER, user)
+			self.__pam.set_item(PAM.PAM_USER, username)
 		try:
 			self.__pam.authenticate()
 			self.__pam.acct_mgmt()
