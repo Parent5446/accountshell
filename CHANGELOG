@@ -1,3 +1,7 @@
+2009-06-27  Tyler Romeo  <tylerromeo@gmail.com>
+
+	Created new Log model. Not yet in use.
+
 2009-06-26  Tyler Romeo  <tylerromeo@gmail.com>
 
 	Created Superuser Panel views and controller. Integration of Superuser tools not yet finished.

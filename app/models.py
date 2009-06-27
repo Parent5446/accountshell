@@ -10,7 +10,10 @@ class Config():
 	def __init__(self):
 		self.updateFromFile()
 	def getOption(self, key):
-		return self.data[key]
+		if key in self.data:
+			return self.data[key]
+		else:
+			return 0
 	def putOption(self, key, value):
 		self.data[key] = value
 	def updateFromFile(self, filename = ''):
@@ -37,6 +40,46 @@ class Config():
 		configfile.close()
 		return 1
 
+class Log():
+	def __init__(config):
+		self.__config = config
+		self.factory = 1
+		self.loglevel = config.getOption('logging_level')
+		if self.loglevel == 0:
+			self.loglevel = '50'
+		self.logformat = config.getOption('logging_format')
+		if self.logformat == 0:
+			self.logformat = '%(asctime)s (%(process)d) -- %(levelname)s: %(name) - %(message)s'
+		self.logfile = config.getOption('logging_filename')
+		logging.basicConfig(filename=self.logfile, format=self.logformat, level=self.loglevel)
+	def loadLogger(name = ''):
+		if self.factory:
+			return 0
+		logger = logging.getLogger(name)
+		logger.setLevel(self.loglevel)
+		self.logger = logger
+	def log(level, callback, msg):
+		if self.factory
+			return 0
+		msg = "(callback) msg"
+		level = level.strip().upper()
+		if level == 'CRITICAL':
+			level = 50
+		elif level == 'ERROR':
+			level = 40
+		elif level == 'WARNING':
+			level = 30
+		elif level == 'INFO':
+			level = 20
+		elif level == 'DEBUG':
+			level = 10
+		self.logger.log(level, msg)
+	self.newInstance(name = ''):
+		temp = new Log(self.config)
+		temp.factory = 0
+		temp.loadLogger(name)
+		return temp
+
 class Database():
 	"""A class to maintain the program's configuration options."""
 	data = []
@@ -47,7 +90,45 @@ class Database():
 		if key == 'id':
 			return self.data[int(value) - 1]
 		for dataset in self.data:
-			if dataset[key] == value:
+			class Log():
+	def __init__(config):
+		self.__config = config
+		self.factory = 1
+		self.loglevel = config.getOption('logging_level')
+		if self.loglevel == 0:
+			self.loglevel = '50'
+		self.logformat = config.getOption('logging_format')
+		if self.logformat == 0:
+			self.logformat = '%(asctime)s (%(process)d) -- %(levelname)s: %(name) - %(message)s'
+		self.logfile = config.getOption('logging_filename')
+		logging.basicConfig(filename=self.logfile, format=self.logformat, level=self.loglevel)
+	def loadLogger(name = ''):
+		if self.factory:
+			return 0
+		logger = logging.getLogger(name)
+		logger.setLevel(self.loglevel)
+		self.logger = logger
+	def log(level, callback, msg):
+		if self.factory
+			return 0
+		msg = "(callback) msg"
+		level = level.strip().upper()
+		if level == 'CRITICAL':
+			level = 50
+		elif level == 'ERROR':
+			level = 40
+		elif level == 'WARNING':
+			level = 30
+		elif level == 'INFO':
+			level = 20
+		elif level == 'DEBUG':
+			level = 10
+		self.logger.log(level, msg)
+	self.newInstance(name = ''):
+		temp = new Log(self.config)
+		temp.factory = 0
+		temp.loadLogger(name)
+		return tempif dataset[key] == value:
 				return dataset
 		return 0
 	def addLine(self, information):
