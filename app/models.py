@@ -41,7 +41,7 @@ class Config():
 		return 1
 
 class Log():
-	def __init__(config):
+	def __init__(self, config):
 		self.__config = config
 		self.factory = 1
 		self.loglevel = config.getOption('logging_level')
@@ -52,14 +52,14 @@ class Log():
 			self.logformat = '%(asctime)s (%(process)d) -- %(levelname)s: %(name) - %(message)s'
 		self.logfile = config.getOption('logging_filename')
 		logging.basicConfig(filename=self.logfile, format=self.logformat, level=self.loglevel)
-	def loadLogger(name = ''):
+	def loadLogger(self, name = ''):
 		if self.factory:
 			return 0
 		logger = logging.getLogger(name)
 		logger.setLevel(self.loglevel)
 		self.logger = logger
-	def log(level, callback, msg):
-		if self.factory
+	def log(self, level, callback, msg):
+		if self.factory:
 			return 0
 		msg = "(callback) msg"
 		level = level.strip().upper()
@@ -74,8 +74,8 @@ class Log():
 		elif level == 'DEBUG':
 			level = 10
 		self.logger.log(level, msg)
-	self.newInstance(name = ''):
-		temp = new Log(self.config)
+	def newInstance(self, name = ''):
+		temp = Log(self.config)
 		temp.factory = 0
 		temp.loadLogger(name)
 		return temp
@@ -90,45 +90,7 @@ class Database():
 		if key == 'id':
 			return self.data[int(value) - 1]
 		for dataset in self.data:
-			class Log():
-	def __init__(config):
-		self.__config = config
-		self.factory = 1
-		self.loglevel = config.getOption('logging_level')
-		if self.loglevel == 0:
-			self.loglevel = '50'
-		self.logformat = config.getOption('logging_format')
-		if self.logformat == 0:
-			self.logformat = '%(asctime)s (%(process)d) -- %(levelname)s: %(name) - %(message)s'
-		self.logfile = config.getOption('logging_filename')
-		logging.basicConfig(filename=self.logfile, format=self.logformat, level=self.loglevel)
-	def loadLogger(name = ''):
-		if self.factory:
-			return 0
-		logger = logging.getLogger(name)
-		logger.setLevel(self.loglevel)
-		self.logger = logger
-	def log(level, callback, msg):
-		if self.factory
-			return 0
-		msg = "(callback) msg"
-		level = level.strip().upper()
-		if level == 'CRITICAL':
-			level = 50
-		elif level == 'ERROR':
-			level = 40
-		elif level == 'WARNING':
-			level = 30
-		elif level == 'INFO':
-			level = 20
-		elif level == 'DEBUG':
-			level = 10
-		self.logger.log(level, msg)
-	self.newInstance(name = ''):
-		temp = new Log(self.config)
-		temp.factory = 0
-		temp.loadLogger(name)
-		return tempif dataset[key] == value:
+			if dataset[key] == value:
 				return dataset
 		return 0
 	def addLine(self, information):
@@ -199,16 +161,21 @@ class Auth():
 		else:
 			return 1
 	def makeUser(self, username, password):
-		password = crypt.crypt(password, string.join(random.sample(string.ascii_letters + string.digits, 20), ''))
 		command = 'useradd -c "Created with account shell." -s /bin/bash -mg acctshell -p "'
 		command = command + password + '" "' + username + '"'
 		os.system(command)
 		self.database.delLine(username)
 	def isAdmin(self, username):
-		for name in grp.getgrnam("admin")[3]:
+		return self.hasGroup(username, "admin")
+	def isRoot(self, username):
+		return self.hasGroup(username, "root")
+	def hasGroup(self, username, group):
+		for name in grp.getgrnam(group)[3]:
 			if name == username:
 				return 1
 		return 0
+	def generatePassword(self, password):
+		return crypt.crypt(password, string.join(random.sample(string.ascii_letters + string.digits, 20), ''))
 	def getLastUsername(self):
 		return self.__pam.get_item(PAM.PAM_USER)
 

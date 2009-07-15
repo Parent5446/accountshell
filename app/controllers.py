@@ -1,9 +1,10 @@
 import views
 
 class AccountShell():
-	def __init__(self, config, database, request):
+	def __init__(self, config, database, auth, request):
 		self.config = config
 		self.database = database
+		self.auth = auth
 		self.request = request
 	def execute(self):
 		inmenu = 1
@@ -29,10 +30,12 @@ class AccountShell():
 	def handleRequest(self, status, request):
 		if status[0] == 'Request_Create()':
 			request.new = 1
+			status[1]["password"] = self.auth.generatePassword(status[1]["password"])
 			request.putInfo(status[1])
 			message = 'Account request successfully created.'
 		elif status[0] == 'Request_Check()':
 			request.putInfo(status[1])
+			status[1]["password"] = self.auth.generatePassword(status[1]["password"])
 			if request.checkPassword(status[1]['password']):
 				message = 'Your request is still being processed.'
 			else:
@@ -120,11 +123,13 @@ class SuperuserPanel():
 		return 0
 	def authenticateUser(self):
 		print '\n'
-		retval = self.auth.authenticate("root")
+		retval = self.auth.authenticate()
+		username = self.auth.getLastUsername()
+		retval = retval and self.auth.isRoot(username)
 		if retval == 1:
-			views.PrintMessage("Password is correct.\n")
+			views.PrintMessage("Username/Password authenticated.\n")
 		else:
-			views.PrintMessage("Incorrect root password.\n")
+			views.PrintMessage("Incorrect username or password.\n")
 		return retval
 	def handleRequest(self, status, request):
 		if status[0] == 'Request_Revoke()':
