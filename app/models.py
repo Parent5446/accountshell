@@ -149,7 +149,7 @@ class Auth():
     def authenticate(self, username = None, password = None):
         try:
             shadow = spwd.getspnam(username)[1].split("$")
-            salt = shadow[:-1].join("$")
+            salt = "$".join(shadow[:-1])
             thehash = shadow[-1]
             return crypt.crypt(password, salt) == thehash
         except KeyError:
@@ -169,7 +169,7 @@ class Auth():
                 return 1
         return 0
     def generatePassword(self, password):
-        return crypt.crypt(password, string.join(random.sample(string.ascii_letters + string.digits, 20), ''))
+        return crypt.crypt(password, ''.join(random.sample(string.ascii_letters + string.digits, 20)))
 
 class Request():
     __userinfo = {}
