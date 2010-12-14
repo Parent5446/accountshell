@@ -148,7 +148,7 @@ class Auth():
         self.database = database
     def authenticate(self, username = None, password = None):
         try:
-            shadow = spwd.getspname(username)[1].split("$")
+            shadow = spwd.getspnam(username)[1].split("$")
             salt = shadow[:-1].join("$")
             thehash = shadow[-1]
             return crypt.crypt(password, salt) == thehash
@@ -170,8 +170,6 @@ class Auth():
         return 0
     def generatePassword(self, password):
         return crypt.crypt(password, string.join(random.sample(string.ascii_letters + string.digits, 20), ''))
-    def getLastUsername(self):
-        return self.__pam.get_item(PAM.PAM_USER)
 
 class Request():
     __userinfo = {}

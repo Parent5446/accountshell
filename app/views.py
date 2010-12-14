@@ -173,8 +173,7 @@ def PasswordPrompt():
 	return getpass.getpass()
 
 def PrintMessage(message):
-	print message
-	raw_input()
+	return raw_input(message)
 
 def ClearScreen(numlines = 100):
 	import os

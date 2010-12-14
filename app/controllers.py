@@ -74,9 +74,9 @@ class AdminPanel():
 		return 0
 	def authenticateUser(self):
 		print '\n'
-		retval = self.auth.authenticate()
-		username = self.auth.getLastUsername()
-		retval = retval and self.auth.isAdmin(username)
+		username = views.PrintMessage("Username: ")
+		password = views.PasswordPrompt()
+		retval = self.auth.authenticate(username, password) and self.auth.isAdmin(username)
 		if retval == 1:
 			views.PrintMessage("Username/Password authenticated.\n")
 		else:
