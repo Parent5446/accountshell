@@ -114,6 +114,7 @@ class Database():
                 self.data.remove(dataset)
         return 1
     def updateFromFile(self):
+        self.data = []
         datafile = open(self.getRequestFilename(), 'r')
         lines = datafile.readlines()
         datafile.close()
@@ -168,8 +169,11 @@ class Auth():
             if name == username:
                 return 1
         return 0
-    def generatePassword(self, password):
-        return crypt.crypt(password, ''.join(random.sample(string.ascii_letters + string.digits, 20)))
+    def generatePassword(self, password, salt=None):
+        if salt is None:
+            salt = ''.join(random.sample(string.ascii_letters + string.digits, 10))
+        actualsalt = "$6$" + salt
+        return crypt.crypt(password, actualsalt), salt
 
 class Request():
     __userinfo = {}
@@ -218,6 +222,7 @@ class Request():
         self.__userinfo = {}
         return 1
     def updateToDatabase(self):
+        print self.__userinfo
         if self.factory:
             return 0
         if self.new:

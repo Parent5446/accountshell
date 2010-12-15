@@ -30,12 +30,15 @@ class AccountShell():
 	def handleRequest(self, status, request):
 		if status[0] == 'Request_Create()':
 			request.new = 1
-			status[1]["password"] = self.auth.generatePassword(status[1]["password"])
+			status[1]["password"], status[1]["salt"] = self.auth.generatePassword(status[1]["password"])
 			request.putInfo(status[1])
 			message = 'Account request successfully created.'
 		elif status[0] == 'Request_Check()':
+                        password = status[1]["password"]
+                        del status[1]["password"]
 			request.putInfo(status[1])
-			status[1]["password"] = self.auth.generatePassword(status[1]["password"])
+                        salt = request.getInfo("salt")
+			status[1]["password"], salt = self.auth.generatePassword(password, salt)
 			if request.checkPassword(status[1]['password']):
 				message = 'Your request is still being processed.'
 			else:
@@ -123,9 +126,8 @@ class SuperuserPanel():
 		return 0
 	def authenticateUser(self):
 		print '\n'
-		retval = self.auth.authenticate()
-		username = self.auth.getLastUsername()
-		retval = retval and self.auth.isRoot(username)
+                password = views.PasswordPrompt()
+		retval = self.auth.authenticate("root", password) and self.auth.isRoot(username)
 		if retval == 1:
 			views.PrintMessage("Username/Password authenticated.\n")
 		else:
