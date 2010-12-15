@@ -151,7 +151,7 @@ class Auth():
             shadow = spwd.getspnam(username)[1].split("$")
             salt = "$".join(shadow[:-1])
             thehash = shadow[-1]
-            return crypt.crypt(password, salt) == thehash
+            return crypt.crypt(password, salt) == "$".join(shadow)
         except KeyError:
             return False
     def makeUser(self, username, password):
